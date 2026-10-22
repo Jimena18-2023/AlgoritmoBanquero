@@ -163,14 +163,36 @@
     End Sub
 
     Private Sub btnLimpiar_Click(sender As Object, e As EventArgs) Handles btnLimpiar.Click
+        ' Limpiar las tablas
         tblAllocation.Columns.Clear()
         tblMax.Columns.Clear()
         tblNeed.Columns.Clear()
         tblAvailable.Columns.Clear()
+
+        ' Reiniciar los NumericUpDown
+        NumericProcesos.Value = 0
+        NumericRecursos.Value = 0
+
+        ' Limpiar el ComboBox y dejar P0 seleccionado
+        ComboBox1.Items.Clear()
+        ComboBox1.Items.Add("P0")
+        ComboBox1.SelectedIndex = 0
+
+        ' Limpiar el TextBox de solicitud
+        TextBox1.Clear()
+
+        ' Limpiar los resultados y mensajes
         txtPasoAPaso.Clear()
         lblSecuencia.Text = ""
+        Label10.Text = ""
+
+        ' Restablecer el estado
         lblEstado.Text = "ESTADO PENDIENTE"
         lblEstado.ForeColor = Color.Gray
+
+        ' Reiniciar el botón de ejemplos
+        ejemploInseguroActual = False
+        btnEjemplo.Text = "Ejemplo"
     End Sub
 
     Private Sub btnNeed_Click(sender As Object, e As EventArgs) Handles btnNeed.Click
