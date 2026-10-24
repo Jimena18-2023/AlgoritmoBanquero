@@ -58,6 +58,10 @@ Partial Class Form1
         Label12 = New Label()
         lblEstado = New Label()
         ContextMenuStrip1 = New ContextMenuStrip(components)
+        txtTeoria = New RichTextBox()
+        btnAnterior = New Button()
+        btnSiguiente = New Button()
+        lblIndicadorDiapositiva = New Label()
         Panel1.SuspendLayout()
         CType(NumericRecursos, ComponentModel.ISupportInitialize).BeginInit()
         CType(NumericProcesos, ComponentModel.ISupportInitialize).BeginInit()
@@ -112,7 +116,7 @@ Partial Class Form1
         ' 
         ' btnLimpiar
         ' 
-        btnLimpiar.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnLimpiar.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnLimpiar.Location = New Point(1247, 29)
         btnLimpiar.Name = "btnLimpiar"
         btnLimpiar.Size = New Size(76, 30)
@@ -122,7 +126,7 @@ Partial Class Form1
         ' 
         ' btnCSV
         ' 
-        btnCSV.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnCSV.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnCSV.Location = New Point(1124, 29)
         btnCSV.Name = "btnCSV"
         btnCSV.Size = New Size(103, 30)
@@ -132,7 +136,7 @@ Partial Class Form1
         ' 
         ' btnEjemplo
         ' 
-        btnEjemplo.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnEjemplo.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnEjemplo.Location = New Point(953, 29)
         btnEjemplo.Name = "btnEjemplo"
         btnEjemplo.Size = New Size(165, 30)
@@ -191,14 +195,14 @@ Partial Class Form1
         Panel2.Controls.Add(tblAllocation)
         Panel2.Location = New Point(18, 89)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(1345, 593)
+        Panel2.Size = New Size(1345, 543)
         Panel2.TabIndex = 1
         ' 
         ' Label11
         ' 
         Label11.AutoSize = True
         Label11.Font = New Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label11.Location = New Point(568, 375)
+        Label11.Location = New Point(720, 381)
         Label11.Name = "Label11"
         Label11.Size = New Size(198, 25)
         Label11.TabIndex = 23
@@ -207,14 +211,14 @@ Partial Class Form1
         ' Label10
         ' 
         Label10.AutoSize = True
-        Label10.Location = New Point(568, 517)
+        Label10.Location = New Point(794, 475)
         Label10.Name = "Label10"
         Label10.Size = New Size(0, 20)
         Label10.TabIndex = 22
         ' 
         ' Button7
         ' 
-        Button7.Location = New Point(568, 465)
+        Button7.Location = New Point(1176, 471)
         Button7.Name = "Button7"
         Button7.Size = New Size(141, 29)
         Button7.TabIndex = 21
@@ -223,8 +227,8 @@ Partial Class Form1
         ' 
         ' TextBox1
         ' 
-        TextBox1.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        TextBox1.Location = New Point(852, 410)
+        TextBox1.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        TextBox1.Location = New Point(1004, 416)
         TextBox1.Multiline = True
         TextBox1.Name = "TextBox1"
         TextBox1.Size = New Size(313, 45)
@@ -234,7 +238,7 @@ Partial Class Form1
         ' 
         Label9.AutoSize = True
         Label9.Font = New Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label9.Location = New Point(770, 418)
+        Label9.Location = New Point(922, 424)
         Label9.Name = "Label9"
         Label9.Size = New Size(66, 23)
         Label9.TabIndex = 17
@@ -243,7 +247,7 @@ Partial Class Form1
         ' ComboBox1
         ' 
         ComboBox1.FormattingEnabled = True
-        ComboBox1.Location = New Point(648, 416)
+        ComboBox1.Location = New Point(800, 422)
         ComboBox1.Name = "ComboBox1"
         ComboBox1.Size = New Size(61, 28)
         ComboBox1.TabIndex = 16
@@ -252,7 +256,7 @@ Partial Class Form1
         ' 
         Label8.AutoSize = True
         Label8.Font = New Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label8.Location = New Point(568, 418)
+        Label8.Location = New Point(720, 424)
         Label8.Name = "Label8"
         Label8.Size = New Size(74, 23)
         Label8.TabIndex = 15
@@ -260,7 +264,7 @@ Partial Class Form1
         ' 
         ' Button6
         ' 
-        Button6.Location = New Point(173, 546)
+        Button6.Location = New Point(445, 471)
         Button6.Name = "Button6"
         Button6.Size = New Size(250, 29)
         Button6.TabIndex = 14
@@ -269,7 +273,7 @@ Partial Class Form1
         ' 
         ' btnNeed
         ' 
-        btnNeed.Location = New Point(21, 546)
+        btnNeed.Location = New Point(445, 432)
         btnNeed.Name = "btnNeed"
         btnNeed.Size = New Size(131, 29)
         btnNeed.TabIndex = 13
@@ -354,32 +358,36 @@ Partial Class Form1
         ' 
         ' Panel3
         ' 
+        Panel3.Controls.Add(lblIndicadorDiapositiva)
+        Panel3.Controls.Add(btnSiguiente)
+        Panel3.Controls.Add(btnAnterior)
+        Panel3.Controls.Add(txtTeoria)
         Panel3.Controls.Add(txtPasoAPaso)
         Panel3.Controls.Add(Label13)
         Panel3.Controls.Add(lblSecuencia)
         Panel3.Controls.Add(Label12)
         Panel3.Controls.Add(lblEstado)
-        Panel3.Location = New Point(18, 688)
+        Panel3.Location = New Point(18, 648)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(1345, 275)
+        Panel3.Size = New Size(1345, 313)
         Panel3.TabIndex = 2
         ' 
         ' txtPasoAPaso
         ' 
         txtPasoAPaso.BackColor = SystemColors.ControlLightLight
-        txtPasoAPaso.Location = New Point(532, 57)
+        txtPasoAPaso.Location = New Point(382, 58)
         txtPasoAPaso.Multiline = True
         txtPasoAPaso.Name = "txtPasoAPaso"
         txtPasoAPaso.ReadOnly = True
         txtPasoAPaso.ScrollBars = ScrollBars.Vertical
-        txtPasoAPaso.Size = New Size(616, 190)
+        txtPasoAPaso.Size = New Size(491, 241)
         txtPasoAPaso.TabIndex = 9
         ' 
         ' Label13
         ' 
         Label13.AutoSize = True
         Label13.Font = New Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label13.Location = New Point(532, 10)
+        Label13.Location = New Point(382, 21)
         Label13.Name = "Label13"
         Label13.Size = New Size(177, 25)
         Label13.TabIndex = 7
@@ -388,7 +396,7 @@ Partial Class Form1
         ' lblSecuencia
         ' 
         lblSecuencia.AutoSize = True
-        lblSecuencia.Location = New Point(42, 105)
+        lblSecuencia.Location = New Point(42, 90)
         lblSecuencia.Name = "lblSecuencia"
         lblSecuencia.Size = New Size(0, 20)
         lblSecuencia.TabIndex = 5
@@ -396,8 +404,8 @@ Partial Class Form1
         ' Label12
         ' 
         Label12.AutoSize = True
-        Label12.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label12.Location = New Point(32, 71)
+        Label12.Font = New Font("Segoe UI Semibold", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label12.Location = New Point(32, 61)
         Label12.Name = "Label12"
         Label12.Size = New Size(194, 20)
         Label12.TabIndex = 4
@@ -406,7 +414,7 @@ Partial Class Form1
         ' lblEstado
         ' 
         lblEstado.AutoSize = True
-        lblEstado.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblEstado.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblEstado.Location = New Point(21, 20)
         lblEstado.Name = "lblEstado"
         lblEstado.Size = New Size(133, 41)
@@ -419,9 +427,43 @@ Partial Class Form1
         ContextMenuStrip1.Name = "ContextMenuStrip1"
         ContextMenuStrip1.Size = New Size(61, 4)
         ' 
+        ' txtTeoria
+        ' 
+        txtTeoria.Location = New Point(898, 20)
+        txtTeoria.Name = "txtTeoria"
+        txtTeoria.Size = New Size(425, 242)
+        txtTeoria.TabIndex = 10
+        txtTeoria.Text = ""
+        ' 
+        ' btnAnterior
+        ' 
+        btnAnterior.Location = New Point(898, 268)
+        btnAnterior.Name = "btnAnterior"
+        btnAnterior.Size = New Size(43, 29)
+        btnAnterior.TabIndex = 11
+        btnAnterior.Text = "◀"
+        btnAnterior.UseVisualStyleBackColor = True
+        ' 
+        ' btnSiguiente
+        ' 
+        btnSiguiente.Location = New Point(1280, 268)
+        btnSiguiente.Name = "btnSiguiente"
+        btnSiguiente.Size = New Size(43, 29)
+        btnSiguiente.TabIndex = 12
+        btnSiguiente.Text = "▶"
+        btnSiguiente.UseVisualStyleBackColor = True
+        ' 
+        ' lblIndicadorDiapositiva
+        ' 
+        lblIndicadorDiapositiva.AutoSize = True
+        lblIndicadorDiapositiva.Location = New Point(947, 272)
+        lblIndicadorDiapositiva.Name = "lblIndicadorDiapositiva"
+        lblIndicadorDiapositiva.Size = New Size(0, 20)
+        lblIndicadorDiapositiva.TabIndex = 13
+        ' 
         ' Form1
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1375, 983)
         Controls.Add(Panel3)
@@ -479,5 +521,9 @@ Partial Class Form1
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents Label13 As Label
     Friend WithEvents txtPasoAPaso As TextBox
+    Friend WithEvents txtTeoria As RichTextBox
+    Friend WithEvents lblIndicadorDiapositiva As Label
+    Friend WithEvents btnSiguiente As Button
+    Friend WithEvents btnAnterior As Button
 
 End Class

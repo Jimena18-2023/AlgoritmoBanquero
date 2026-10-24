@@ -1,5 +1,8 @@
 ﻿Public Class Form1
     Private ejemploInseguroActual As Boolean = False
+
+    Private diapositivaActual As Integer = 0
+    Private paginasTeoria As List(Of String)
     Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
 
     End Sub
@@ -12,6 +15,84 @@
 
     End Sub
 
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Inicializar la lista de diapositivas de forma segura y sin errores de sintaxis
+        paginasTeoria = New List(Of String)()
+
+        Dim pagina1 As String = "🔣 ¿QUÉ ES EL ALGORITMO DEL BANQUERO?" & Environment.NewLine & Environment.NewLine &
+                                "Es un algoritmo de prevención de interbloqueos (deadlocks) desarrollado por Edsger Dijkstra." & Environment.NewLine & Environment.NewLine &
+                                "Simula las asignaciones de recursos de un sistema operativo a los procesos de forma segura, garantizando que nunca se alcance un estado inseguro."
+        paginasTeoria.Add(pagina1)
+
+        Dim pagina2 As String = "⚙️ ¿CÓMO FUNCIONA?" & Environment.NewLine & Environment.NewLine &
+                                "1. Calcula los recursos que necesita cada proceso." & Environment.NewLine &
+                                "2. Busca un proceso cuyas necesidades puedan cubrirse con los recursos disponibles." & Environment.NewLine &
+                                "3. Simula su finalización y libera sus recursos asignados." & Environment.NewLine &
+                                "4. Repite el proceso hasta terminar todos los procesos o determinar que no existe una secuencia segura."
+        paginasTeoria.Add(pagina2)
+
+        Dim pagina3 As String = "⏹️ TABLAS DE RECURSOS" & Environment.NewLine & Environment.NewLine &
+                                "• Allocation — Recursos asignados: Recursos que cada proceso tiene actualmente." & Environment.NewLine &
+                                "• Max — Demanda máxima: Máximo de recursos que cada proceso podría necesitar." & Environment.NewLine &
+                                "• Need — Recursos restantes: Recursos adicionales que cada proceso necesita para finalizar." & Environment.NewLine &
+                                "• Available — Recursos disponibles: Cantidad de recursos libres en el sistema."
+        paginasTeoria.Add(pagina3)
+
+        Dim pagina4 As String = "🔢 FÓRMULAS MATEMÁTICAS" & Environment.NewLine & Environment.NewLine &
+                                "Necesidad restante" & Environment.NewLine &
+                                "Need = Max - Allocation" & Environment.NewLine & Environment.NewLine &
+                                "Verificación de recursos" & Environment.NewLine &
+                                "Needᵢ ≤ Work" & Environment.NewLine & Environment.NewLine &
+                                "Liberación al finalizar" & Environment.NewLine &
+                                "Work = Work + Allocationᵢ" & Environment.NewLine &
+                                "Inicialmente, Work = Available."
+        paginasTeoria.Add(pagina4)
+
+        Dim pagina5 As String = "✅ RESOLUCIÓN PASO A PASO" & Environment.NewLine & Environment.NewLine &
+                                "1. Calcular la matriz Need." & Environment.NewLine &
+                                "2. Inicializar Work con Available." & Environment.NewLine &
+                                "3. Buscar un proceso pendiente con Need ≤ Work." & Environment.NewLine &
+                                "4. Registrar el proceso en la secuencia segura y actualizar Work liberando su Allocation." & Environment.NewLine &
+                                "5. Repetir. Si todos terminan, el estado es seguro; si ninguno puede avanzar, es inseguro."
+        paginasTeoria.Add(pagina5)
+
+        Dim pagina6 As String = "📝 SOLICITUD DE RECURSOS" & Environment.NewLine & Environment.NewLine &
+                                "Cuando un proceso solicita recursos, el algoritmo verifica que la solicitud no supere su Need ni los recursos Available. Luego simula la asignación y comprueba si el sistema permanece en un estado seguro." & Environment.NewLine & Environment.NewLine &
+                                "Condiciones:" & Environment.NewLine &
+                                "Requestᵢ ≤ Needᵢ" & Environment.NewLine &
+                                "Requestᵢ ≤ Available" & Environment.NewLine & Environment.NewLine &
+                                "Si ambas se cumplen, se evalúa la seguridad del sistema. La solicitud se concede únicamente si el estado resultante es seguro; de lo contrario, el proceso debe esperar."
+        paginasTeoria.Add(pagina6)
+
+        ActualizarDiapositiva()
+    End Sub
+
+    Private Sub btnSiguiente_Click(sender As Object, e As EventArgs) Handles btnSiguiente.Click
+        If diapositivaActual < paginasTeoria.Count - 1 Then
+            diapositivaActual += 1
+            ActualizarDiapositiva()
+        End If
+    End Sub
+
+    ' Botón: Diapositiva Anterior
+    Private Sub btnAnterior_Click(sender As Object, e As EventArgs) Handles btnAnterior.Click
+        If diapositivaActual > 0 Then
+            diapositivaActual -= 1
+            ActualizarDiapositiva()
+        End If
+    End Sub
+
+    Private Sub ActualizarDiapositiva()
+        ' Muestra únicamente el texto de la teoría actual en el RichTextBox
+        txtTeoria.Text = paginasTeoria(diapositivaActual)
+
+        ' Actualiza el indicador visual de la página (ej: 1 / 3)
+        lblIndicadorDiapositiva.Text = $"{diapositivaActual + 1} / {paginasTeoria.Count}"
+
+        ' Controla el estado de los botones de navegación
+        btnAnterior.Enabled = (diapositivaActual > 0)
+        btnSiguiente.Enabled = (diapositivaActual < paginasTeoria.Count - 1)
+    End Sub
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles btnEjemplo.Click
         Dim n As Integer
         Dim m As Integer
