@@ -16,7 +16,7 @@
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Inicializar la lista de diapositivas de forma segura y sin errores de sintaxis
+        ' CUADRO INFORMATIVO DEL ALGORITMO
         paginasTeoria = New List(Of String)()
 
         Dim pagina1 As String = "🔣 ¿QUÉ ES EL ALGORITMO DEL BANQUERO?" & Environment.NewLine & Environment.NewLine &
@@ -67,6 +67,7 @@
         ActualizarDiapositiva()
     End Sub
 
+    'BOTONES DE DIAPOSITIVA ANTERIOR Y SIGUIENTE DEL CUADRO INFORMATIVO
     Private Sub btnSiguiente_Click(sender As Object, e As EventArgs) Handles btnSiguiente.Click
         If diapositivaActual < paginasTeoria.Count - 1 Then
             diapositivaActual += 1
@@ -74,7 +75,6 @@
         End If
     End Sub
 
-    ' Botón: Diapositiva Anterior
     Private Sub btnAnterior_Click(sender As Object, e As EventArgs) Handles btnAnterior.Click
         If diapositivaActual > 0 Then
             diapositivaActual -= 1
@@ -82,6 +82,7 @@
         End If
     End Sub
 
+    'MUESTRA CADA DIAPOSITIVA Y UN CONTADOR DE CADA UNA
     Private Sub ActualizarDiapositiva()
         ' Muestra únicamente el texto de la teoría actual en el RichTextBox
         txtTeoria.Text = paginasTeoria(diapositivaActual)
@@ -93,6 +94,8 @@
         btnAnterior.Enabled = (diapositivaActual > 0)
         btnSiguiente.Enabled = (diapositivaActual < paginasTeoria.Count - 1)
     End Sub
+
+    'FUNCION DE BOTON DE EJEMPLO
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles btnEjemplo.Click
         Dim n As Integer
         Dim m As Integer
@@ -188,6 +191,7 @@
         Label10.Text = ""
     End Sub
 
+    'BOTON DE GENERAR TABLAS CON EL VALOR INSERTADO EN CADA NUMERICUPDOWN
     Private Sub btnGenerar_Click(sender As Object, e As EventArgs) Handles btnGenerar.Click
         Dim n As Integer = CInt(NumericProcesos.Value)
         Dim m As Integer = CInt(NumericRecursos.Value)
@@ -195,6 +199,7 @@
         ConfigurarDataGridViews(n, m)
     End Sub
 
+    'CONFIGURACION DE LAS TABLAS EN BLANCO
     Private Sub ConfigurarDataGridViews(n As Integer, m As Integer)
         tblAllocation.AllowUserToAddRows = False
         tblMax.AllowUserToAddRows = False
@@ -243,6 +248,7 @@
         If ComboBox1.Items.Count > 0 Then ComboBox1.SelectedIndex = 0
     End Sub
 
+    'FUNCION DEL BOTON LIMPIAR
     Private Sub btnLimpiar_Click(sender As Object, e As EventArgs) Handles btnLimpiar.Click
         ' Limpiar las tablas
         tblAllocation.Columns.Clear()
@@ -276,6 +282,7 @@
         btnEjemplo.Text = "Ejemplo"
     End Sub
 
+    'FUNCION PARA CALCULAR LA TABLA NEED
     Private Sub btnNeed_Click(sender As Object, e As EventArgs) Handles btnNeed.Click
         Try
             Dim n As Integer = tblAllocation.Rows.Count
@@ -306,6 +313,8 @@
             MessageBox.Show("Por favor, asegúrese de generar las tablas y rellenar todos los campos numéricos correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    'FUNCION DEL BOTON DE ALGORITMO DE SEGURIDAD
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         txtPasoAPaso.Clear()
@@ -517,6 +526,7 @@
 
     End Function
 
+    'FUNCION DEL BOTON DE EVALUAR SOLICITUD
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
         Try
             If ComboBox1.SelectedItem Is Nothing Then
@@ -647,6 +657,7 @@
 
     End Sub
 
+    'FUNCION DEL BOTON DE CARGA DE DOCUMENTO COMPATIBLE CON .CSV Y .TXT
     Private Sub btnCSV_Click(sender As Object, e As EventArgs) Handles btnCSV.Click
         Using openFileDialog As New OpenFileDialog()
             openFileDialog.Filter = "Archivos CSV (*.csv)|*.csv|Archivos de texto (*.txt)|*.txt|Todos los archivos (*.*)|*.*"
