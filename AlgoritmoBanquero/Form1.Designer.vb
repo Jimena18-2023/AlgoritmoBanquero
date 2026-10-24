@@ -52,16 +52,16 @@ Partial Class Form1
         tblMax = New DataGridView()
         tblAllocation = New DataGridView()
         Panel3 = New Panel()
+        lblIndicadorDiapositiva = New Label()
+        btnSiguiente = New Button()
+        btnAnterior = New Button()
+        txtTeoria = New RichTextBox()
         txtPasoAPaso = New TextBox()
         Label13 = New Label()
         lblSecuencia = New Label()
         Label12 = New Label()
         lblEstado = New Label()
         ContextMenuStrip1 = New ContextMenuStrip(components)
-        txtTeoria = New RichTextBox()
-        btnAnterior = New Button()
-        btnSiguiente = New Button()
-        lblIndicadorDiapositiva = New Label()
         Panel1.SuspendLayout()
         CType(NumericRecursos, ComponentModel.ISupportInitialize).BeginInit()
         CType(NumericProcesos, ComponentModel.ISupportInitialize).BeginInit()
@@ -211,7 +211,7 @@ Partial Class Form1
         ' Label10
         ' 
         Label10.AutoSize = True
-        Label10.Location = New Point(794, 475)
+        Label10.Location = New Point(731, 475)
         Label10.Name = "Label10"
         Label10.Size = New Size(0, 20)
         Label10.TabIndex = 22
@@ -372,6 +372,40 @@ Partial Class Form1
         Panel3.Size = New Size(1345, 313)
         Panel3.TabIndex = 2
         ' 
+        ' lblIndicadorDiapositiva
+        ' 
+        lblIndicadorDiapositiva.AutoSize = True
+        lblIndicadorDiapositiva.Location = New Point(947, 272)
+        lblIndicadorDiapositiva.Name = "lblIndicadorDiapositiva"
+        lblIndicadorDiapositiva.Size = New Size(0, 20)
+        lblIndicadorDiapositiva.TabIndex = 13
+        ' 
+        ' btnSiguiente
+        ' 
+        btnSiguiente.Location = New Point(1280, 268)
+        btnSiguiente.Name = "btnSiguiente"
+        btnSiguiente.Size = New Size(43, 29)
+        btnSiguiente.TabIndex = 12
+        btnSiguiente.Text = "▶"
+        btnSiguiente.UseVisualStyleBackColor = True
+        ' 
+        ' btnAnterior
+        ' 
+        btnAnterior.Location = New Point(898, 268)
+        btnAnterior.Name = "btnAnterior"
+        btnAnterior.Size = New Size(43, 29)
+        btnAnterior.TabIndex = 11
+        btnAnterior.Text = "◀"
+        btnAnterior.UseVisualStyleBackColor = True
+        ' 
+        ' txtTeoria
+        ' 
+        txtTeoria.Location = New Point(898, 20)
+        txtTeoria.Name = "txtTeoria"
+        txtTeoria.Size = New Size(425, 242)
+        txtTeoria.TabIndex = 10
+        txtTeoria.Text = ""
+        ' 
         ' txtPasoAPaso
         ' 
         txtPasoAPaso.BackColor = SystemColors.ControlLightLight
@@ -426,40 +460,6 @@ Partial Class Form1
         ContextMenuStrip1.ImageScalingSize = New Size(20, 20)
         ContextMenuStrip1.Name = "ContextMenuStrip1"
         ContextMenuStrip1.Size = New Size(61, 4)
-        ' 
-        ' txtTeoria
-        ' 
-        txtTeoria.Location = New Point(898, 20)
-        txtTeoria.Name = "txtTeoria"
-        txtTeoria.Size = New Size(425, 242)
-        txtTeoria.TabIndex = 10
-        txtTeoria.Text = ""
-        ' 
-        ' btnAnterior
-        ' 
-        btnAnterior.Location = New Point(898, 268)
-        btnAnterior.Name = "btnAnterior"
-        btnAnterior.Size = New Size(43, 29)
-        btnAnterior.TabIndex = 11
-        btnAnterior.Text = "◀"
-        btnAnterior.UseVisualStyleBackColor = True
-        ' 
-        ' btnSiguiente
-        ' 
-        btnSiguiente.Location = New Point(1280, 268)
-        btnSiguiente.Name = "btnSiguiente"
-        btnSiguiente.Size = New Size(43, 29)
-        btnSiguiente.TabIndex = 12
-        btnSiguiente.Text = "▶"
-        btnSiguiente.UseVisualStyleBackColor = True
-        ' 
-        ' lblIndicadorDiapositiva
-        ' 
-        lblIndicadorDiapositiva.AutoSize = True
-        lblIndicadorDiapositiva.Location = New Point(947, 272)
-        lblIndicadorDiapositiva.Name = "lblIndicadorDiapositiva"
-        lblIndicadorDiapositiva.Size = New Size(0, 20)
-        lblIndicadorDiapositiva.TabIndex = 13
         ' 
         ' Form1
         ' 

@@ -595,7 +595,7 @@
             ' 4. Validar que el pedido <= Available
             For j As Integer = 0 To m - 1
                 If request(j) > available(j) Then
-                    Label10.Text = "El proceso debe esperar: los recursos solicitados exceden los disponibles."
+                    Label10.Text = "Esperar: los recursos solicitados exceden los disponibles."
                     Label10.ForeColor = Color.DarkOrange
                     Return
                 End If
