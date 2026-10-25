@@ -20,8 +20,7 @@
         paginasTeoria = New List(Of String)()
 
         Dim pagina1 As String = "🔣 ¿QUÉ ES EL ALGORITMO DEL BANQUERO?" & Environment.NewLine & Environment.NewLine &
-                                "Es un algoritmo de prevención de interbloqueos (deadlocks) desarrollado por Edsger Dijkstra." & Environment.NewLine & Environment.NewLine &
-                                "Simula las asignaciones de recursos de un sistema operativo a los procesos de forma segura, garantizando que nunca se alcance un estado inseguro."
+                                "Funciona como un banquero prudente que evalúa los préstamos antes de entregarlos. Antes de darle recursos a un proceso, calcula si al resto le quedará suficiente para terminar sus tareas. Si es seguro, aprueba el recurso; si hay riesgo de que todo el sistema colapse en un bloque (deadlock), hace que el proceso espere. ¡Previene fallos con lógica simple!"
         paginasTeoria.Add(pagina1)
 
         Dim pagina2 As String = "⚙️ ¿CÓMO FUNCIONA?" & Environment.NewLine & Environment.NewLine &
@@ -667,61 +666,139 @@
                 Try
                     Dim lineas() As String = IO.File.ReadAllLines(openFileDialog.FileName)
 
-                    If lineas.Length < 3 Then
-                        MessageBox.Show("El formato del archivo CSV no es válido. Debe contener al menos la configuración, Allocation y Max.", "Error de Formato", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    If lineas.Length < 2 Then
+                        MessageBox.Show("El formato del archivo no es válido. Contiene muy pocas líneas.", "Error de Formato", MessageBoxButtons.OK, MessageBoxIcon.Error)
                         Return
                     End If
 
-                    ' 1. Leer la primera línea con N (procesos) y M (recursos) - Ejemplo: 5,3
-                    Dim config() As String = lineas(0).Split(","c)
-                    Dim n As Integer = CInt(config(0).Trim())
-                    Dim m As Integer = CInt(config(1).Trim())
+                    Dim n As Integer = 0
+                    Dim m As Integer = 0
+                    Dim vectorAvailable() As Integer = Nothing
 
-                    NumericProcesos.Value = n
-                    NumericRecursos.Value = m
-                    ConfigurarDataGridViews(n, m)
+                    Dim listaAllocation As New List(Of Integer())()
+                    Dim listaMax As New List(Of Integer())()
 
-                    ' 2. Leer las matrices Allocation y Max desde el archivo
-                    ' Estructura esperada del CSV:
-                    ' Línea 0: N, M
-                    ' Líneas 1 a N: Filas de Allocation separadas por comas
-                    ' Líneas N+1 a 2*N: Filas de Max separadas por comas
-                    ' Última línea: Vector Available separado por comas
+                    ' Detectar si el archivo usa el NUEVO formato estructurado (ej. "Procesos: 5 | ...")
+                    Dim esFormatoEstructurado As Boolean = lineas(0).StartsWith("Procesos:", StringComparison.OrdinalIgnoreCase)
 
-                    Dim indiceLinea As Integer = 1
+                    If esFormatoEstructurado Then
+                        ' --- LÓGICA PARA NUEVO FORMATO ESTRUCTURADO ---
+                        Dim seccionActual As String = ""
 
-                    ' Cargar Allocation
-                    For i As Integer = 0 To n - 1
-                        Dim valores() As String = lineas(indiceLinea).Split(","c)
-                        For j As Integer = 0 To m - 1
-                            tblAllocation.Rows(i).Cells(j + 1).Value = CInt(valores(j).Trim())
+                        For Each linea As String In lineas
+                            linea = linea.Trim()
+                            If String.IsNullOrEmpty(linea) Then Continue For
+
+                            ' Leer cabecera principal
+                            If linea.StartsWith("Procesos:", StringComparison.OrdinalIgnoreCase) Then
+                                Dim partes = linea.Split("|"c)
+                                For Each parte In partes
+                                    parte = parte.Trim()
+                                    If parte.StartsWith("Procesos:", StringComparison.OrdinalIgnoreCase) Then
+                                        n = Convert.ToInt32(parte.Split(":"c)(1).Trim())
+                                    ElseIf parte.StartsWith("Recursos:", StringComparison.OrdinalIgnoreCase) Then
+                                        m = Convert.ToInt32(parte.Split(":"c)(1).Trim())
+                                    ElseIf parte.StartsWith("Available:", StringComparison.OrdinalIgnoreCase) Then
+                                        Dim valoresAv = parte.Split(":"c)(1).Trim().Split(New Char() {","c, "-"c}, StringSplitOptions.RemoveEmptyEntries)
+                                        vectorAvailable = Array.ConvertAll(valoresAv, Function(s) Convert.ToInt32(s.Trim()))
+                                    End If
+                                Next
+                                Continue For
+                            End If
+
+                            ' Detectar secciones
+                            If linea.StartsWith("Allocation:", StringComparison.OrdinalIgnoreCase) Then
+                                seccionActual = "Allocation"
+                                Continue For
+                            ElseIf linea.StartsWith("Max:", StringComparison.OrdinalIgnoreCase) Then
+                                seccionActual = "Max"
+                                Continue For
+                            End If
+
+                            ' Guardar filas numéricas según la sección
+                            If seccionActual = "Allocation" OrElse seccionActual = "Max" Then
+                                Dim valores = linea.Split(New Char() {","c, "-"c}, StringSplitOptions.RemoveEmptyEntries)
+                                Dim fila = Array.ConvertAll(valores, Function(s) Convert.ToInt32(s.Trim()))
+
+                                If seccionActual = "Allocation" Then
+                                    listaAllocation.Add(fila)
+                                ElseIf seccionActual = "Max" Then
+                                    listaMax.Add(fila)
+                                End If
+                            End If
                         Next
-                        indiceLinea += 1
-                    Next
 
-                    ' Cargar Max
-                    For i As Integer = 0 To n - 1
-                        Dim valores() As String = lineas(indiceLinea).Split(","c)
-                        For j As Integer = 0 To m - 1
-                            tblMax.Rows(i).Cells(j + 1).Value = CInt(valores(j).Trim())
-                        Next
-                        indiceLinea += 1
-                    Next
+                        ' Configurar controles con los datos leídos
+                        NumericProcesos.Value = n
+                        NumericRecursos.Value = m
+                        ConfigurarDataGridViews(n, m)
 
-                    ' Cargar Available (última línea)
-                    If indiceLinea < lineas.Length Then
-                        Dim valoresAvail() As String = lineas(indiceLinea).Split(","c)
-                        For j As Integer = 0 To m - 1
-                            tblAvailable.Rows(0).Cells(j).Value = CInt(valoresAvail(j).Trim())
+                        ' Volcar Allocation a la interfaz
+                        For i As Integer = 0 To listaAllocation.Count - 1
+                            For j As Integer = 0 To m - 1
+                                tblAllocation.Rows(i).Cells(j + 1).Value = listaAllocation(i)(j)
+                            Next
                         Next
+
+                        ' Volcar Max a la interfaz
+                        For i As Integer = 0 To listaMax.Count - 1
+                            For j As Integer = 0 To m - 1
+                                tblMax.Rows(i).Cells(j + 1).Value = listaMax(i)(j)
+                            Next
+                        Next
+
+                        ' Volcar Available a la interfaz
+                        If vectorAvailable IsNot Nothing Then
+                            For j As Integer = 0 To m - 1
+                                tblAvailable.Rows(0).Cells(j).Value = vectorAvailable(j)
+                            Next
+                        End If
+
+                    Else
+                        ' --- LÓGICA PARA EL FORMATO TRADICIONAL (COMPATIBILIDAD HACIA ATRÁS) ---
+                        Dim config() As String = lineas(0).Split(","c)
+                        n = CInt(config(0).Trim())
+                        m = CInt(config(1).Trim())
+
+                        NumericProcesos.Value = n
+                        NumericRecursos.Value = m
+                        ConfigurarDataGridViews(n, m)
+
+                        Dim indiceLinea As Integer = 1
+
+                        ' Cargar Allocation
+                        For i As Integer = 0 To n - 1
+                            Dim valores() As String = lineas(indiceLinea).Split(","c)
+                            For j As Integer = 0 To m - 1
+                                tblAllocation.Rows(i).Cells(j + 1).Value = CInt(valores(j).Trim())
+                            Next
+                            indiceLinea += 1
+                        Next
+
+                        ' Cargar Max
+                        For i As Integer = 0 To n - 1
+                            Dim valores() As String = lineas(indiceLinea).Split(","c)
+                            For j As Integer = 0 To m - 1
+                                tblMax.Rows(i).Cells(j + 1).Value = CInt(valores(j).Trim())
+                            Next
+                            indiceLinea += 1
+                        Next
+
+                        ' Cargar Available (última línea)
+                        If indiceLinea < lineas.Length Then
+                            Dim valoresAvail() As String = lineas(indiceLinea).Split(","c)
+                            For j As Integer = 0 To m - 1
+                                tblAvailable.Rows(0).Cells(j).Value = CInt(valoresAvail(j).Trim())
+                            Next
+                        End If
                     End If
 
-                    ' Calcular Need automáticamente tras cargar
+                    ' Calcular Need automáticamente tras cargar con éxito
                     btnNeed.PerformClick()
-                    MessageBox.Show("Archivo CSV cargado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("Archivo cargado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Catch ex As Exception
-                    MessageBox.Show("Error al procesar el archivo CSV: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show("Error al procesar el archivo: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
             End If
         End Using
